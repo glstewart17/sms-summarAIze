@@ -1,5 +1,7 @@
 # SummarAIze
 
+The web application will write a nonsensical summary of just about any topic.
+
 This simple Flask application will take in any topic and any number of sentences.
 Wikipedia's API is then used to bring in an article related to the topic.
 A self-made NLG will then produce an output of the proper length.
