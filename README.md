@@ -9,8 +9,8 @@ Without thorough training, the output will remain quite goofy.
 
 Example Input:
 
-![Input Image](/example/input.png)
+![Input Image](/example/input.PNG)
 
 Example Output:
 
-![Output Image](/example/output.png)
+![Output Image](/example/output.PNG)
