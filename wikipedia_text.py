@@ -65,16 +65,19 @@ def summarizer(chain, numS):
     lastWord = string.split()[len(string.split()) - 1]
     lastWord2 = string.split()[0]
     while numS > 0:
+        print(response)
+        print(numS)
         temp = nextWord(lastWord2 + " " + lastWord)
 
 
-        string = temp
-        lastWord2, lastWord = lastWord, temp
+
         if ("?" in temp or "." in temp or "!" in temp) and numS == temp1:
             temp1 = -10
             response = response[:max(response.find('.'), response.find('?'), response.find('!'))]
         elif "?" in temp or "." in temp or "!" in temp:
             numS -= 1
+        string = temp
+        lastWord2, lastWord = lastWord, temp
         response += " " + temp
     for i in range(len(response)):
         if response[i] in '.?!':

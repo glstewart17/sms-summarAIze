@@ -15,6 +15,9 @@
   h1 {
      text-align: center;
   }
+  h3 {
+     text-align: center;
+  }
    input[type=text], select {
      width: 100%;
      padding: 12px 20px;
@@ -49,10 +52,14 @@
      margin:0 auto;
    }
 </style>
+<head>
+   <title>Topic Selection</title>
+</head>
 <html>
    <body>
       <h1>Welcome to SummarAIze</h1>
       <div>
+      <h3>Learn from a nonsensical summary of just about any topic.</h3>
       <form action = "" method = post>
          <dl>
             <dt>Topic:</dt>
@@ -60,7 +67,7 @@
                <input type = text name = topic 
                   value = "{{request.form.topic }}">
             </dd>
-                <dt>Sentences:</dt>
+                <dt>Number of Sentences:</dt>
             <dd><input type = text name = length>
             </dd>
          </dl>

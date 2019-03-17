@@ -1,5 +1,4 @@
 from flask import Flask, flash, redirect, render_template, request, session, url_for
-import json
 from wikipedia_text import summarizer, train_markov, article_text
 
 app = Flask(__name__)
