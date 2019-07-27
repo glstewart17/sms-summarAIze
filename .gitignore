@@ -1,4 +1,5 @@
 Lib
 _pycache_
+__pycache__
 requirements.txt
 .vscode
