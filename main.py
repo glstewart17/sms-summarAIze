@@ -6,6 +6,7 @@ from summary import getSummary, train_markov, getArticleText, handleSummary
 
 app = Flask(__name__)
 
+# Handle an incoming sms message
 @app.route("/sms", methods=['GET', 'POST'])
 def incoming_sms():
 
@@ -19,15 +20,19 @@ def incoming_sms():
     greetings = ['hello', 'hi', "whats up", 'greetings']
     farewells = ['bye', 'goodbye', "farewell", 'see ya']
     
+    # Handle basic calls
     if body == 'help':
         resp.message("Type any subject, can be a word or phrase, and we will send you a brief summary.")
     elif body in greetings:
         resp.message("Hi friend! Text 'help' for instructions")
     elif body in farewells:
         resp.message("See you soon!")
+    
+    # Get the summary mesaage
     else:
         resp.message(handleSummary(body))
-
+    
+    # Return message
     return str(resp)
 
 if __name__ == "__main__":

@@ -1,95 +1,74 @@
-import wikipedia
-import re
 import random
+from wiki import getArticleText
+from markov import train_markov
 
-def getArticleText(article):
-    try:
-        if 'en.wikipedia.org' in article:
-            while '/' in article:
-                article = article[article.find('/') + 1:]
-                page = wikipedia.page(" ".join(article.split("_")))
-        else:
-            page = wikipedia.page(article)
-    except:
-        return None
-
-
-    content = page.content
-
-
-    contentlist = content.split('== See also ==')
-
-    content = ''.join(contentlist[0])
-
-    content = re.sub('==','', content)
-    content = re.sub('===','', content)
-    content = re.sub('=','', content)
-
-    return content
-
-
-def train_markov(article):
-    text = article.split()
-
-    chain = {}
-
-    for i in range(len(text) - 3):
-        try:
-            if text[i + 2] not in chain[text[i] + " " + text[i + 1]]:
-                chain[text[i] + " " + text[i + 1]] += [text[i + 2]]
-        except:
-            chain[text[i] + " " + text[i + 1]] = [text[i + 2]]
-        if text[i] == "the":
-            try:
-                chain['the'] += [text[i + 1]]
-            except:
-                chain['the'] = [text[i + 1]]
-
-    return chain
-
-
+# This function handles the summary
 def handleSummary(topic):
-    
+
+    # Get article, will either be an article or None    
     article = getArticleText(topic)
-    
+
+    # If the article is None, return a basic fail statement
     if (article == None):
         return "Failed to find any information on %s." % topic
+    
+    # Otherwise, return the summary using get summary
+    return getSummary(train_markov(article), topic)
 
-    return getSummary(train_markov(article))
+# Gets the summary
+def getSummary(chain, topic, tries = 1):
 
-
-def getSummary(chain):
-    numS = 1
-    temp1 = numS
-
+    # This inner function gets the next word, using the if no other opiton
     def nextWord(word):
         if word not in chain.keys():
             return 'the'
         else:
             return random.choice(chain[word])
 
-    string = random.choice(list(chain.keys()))
-    response = string
+    # If the topic is only one word, start using a key starting with it
+    if len(topic.split()) == 1:
 
-    lastWord = string.split()[len(string.split()) - 1]
-    lastWord2 = string.split()[0]
-    while numS > 0:
-        print(response)
-        print(numS)
-        temp = nextWord(lastWord2 + " " + lastWord)
+        lastWord2 = None
 
+        while lastWord2 != topic:
+            startOptions = [s for s in list(chain.keys()) if topic in s]
 
+            string = random.choice(startOptions)
+            
+            response = string
 
-        if ("?" in temp or "." in temp or "!" in temp) and numS == temp1:
-            temp1 = -10
-            response = response[:max(response.find('.'), response.find('?'), response.find('!'))]
-        elif "?" in temp or "." in temp or "!" in temp:
-            numS -= 1
-        string = temp
-        lastWord2, lastWord = lastWord, temp
-        response += " " + temp
-    for i in range(len(response)):
-        if response[i] in '.?!':
-            response = response[:i + 1] + '\n' + response[i + 1:]
+            lastWord = string.split()[len(string.split()) - 1]
+            lastWord2 = string.split()[0]
+    
+    # Otherwise start with the first two words of the topic
+    else:
+        topicList = topic.split()
 
-    return response
+        lastWord = topicList[1]
+        lastWord2 = topicList[2]
+
+        response = topicList[0] + " " + topicList[1]
+
+    # Continue until reaching a break point
+    while True:
+
+        # If the last two words 
+        if lastWord == "the" and lastWord2 == "the":
+            if tries == 5:
+                return "Failed to form a summary on %s." % topic
+            else:
+                return getSummary(chain, topic, (tries + 1))
+
+        # Redefine the new lastWord and lastWord2
+        lastWord, lastWord2 = nextWord(lastWord2 + " " + lastWord), lastWord
+
+        # If ppunctuation in the new lastword, add it and break
+        if "?" in lastWord or "." in lastWord or "!" in lastWord:
+            response += " " + lastWord
+            break
+
+        # Add a space and then the new lastWord
+        response += " " + lastWord
+    
+    # Return the capitalized version of the sentence.
+    return response.capitalize()
