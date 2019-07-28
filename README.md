@@ -14,4 +14,4 @@ Without more thorough training, the output will remain quite goofy.
 
 Example:
 
-![Input Image](/example/SummarAIze Screenshot.jpg)
+![Input Image](/example/SummarAIze Screenshot.png)
