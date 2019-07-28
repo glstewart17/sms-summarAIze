@@ -2,7 +2,7 @@ import os
 import string
 from flask import Flask, request, redirect
 from twilio.twiml.messaging_response import MessagingResponse
-from summary import getSummary, train_markov, getArticleText, handleSummary
+from src.summary import getSummary, train_markov, getArticleText, handleSummary
 
 app = Flask(__name__)
 
