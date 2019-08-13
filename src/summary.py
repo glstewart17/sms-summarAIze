@@ -1,6 +1,6 @@
 import random
-from wiki import getArticleText
-from markov import train_markov
+from src.wiki import getArticleText
+from src.markov import train_markov
 
 # This function handles the summary
 def handleSummary(topic):
