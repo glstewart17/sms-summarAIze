@@ -21,10 +21,10 @@ def incoming_sms():
     farewells = ['bye', 'goodbye', "farewell", 'see ya']
     
     # Handle basic calls
-    if body == 'help':
-        resp.message("Type any subject, can be a word or phrase, and we will send you a brief summary.")
+    if body == 'what':
+        resp.message("""Send any subject, can be a word or phrase, and we will send you a one sentence "summary" on it.""")
     elif body in greetings:
-        resp.message("Hi friend! Text 'help' for instructions")
+        resp.message("Hi friend! Text 'what' for instructions")
     elif body in farewells:
         resp.message("See you soon!")
     
