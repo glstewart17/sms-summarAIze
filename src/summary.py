@@ -45,7 +45,7 @@ def getSummary(chain, topic, tries = 1):
         topicList = topic.split()
 
         lastWord = topicList[1]
-        lastWord2 = topicList[2]
+        lastWord2 = topicList[0]
 
         response = topicList[0] + " " + topicList[1]
 
